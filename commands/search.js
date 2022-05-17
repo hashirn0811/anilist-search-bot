@@ -25,16 +25,27 @@ module.exports = {
       await interaction.reply("query failed");
       return;
     } /* else {
-      await interaction.reply(`\`\`\`json\n${JSON.stringify(res)}\`\`\``);
-    } */
+      await interaction.reply(
+        interaction.user.avatarURL({ format: "png", size: 256 })
+      ); */
+
+    const media = res.Media;
+    let fixDisc = striptags(media.description);
+    fixDisc =
+      fixDisc.length > 200
+        ? `${fixDisc.substring(0, 200).trim()}...`
+        : `${fixDisc}`;
     const embed = makeAnimembed({
-      color: "#0099ff",
-      desc: striptags(res.Media.deescription),
-      title: res.Media.title.english,
-      thumbnail: res.Media.coverImage.large,
-      avgScore: res.Media.averageScore,
-      episodes: undefined,
-      status: res.Media.status,
+      color: media.coverImage.color,
+      title: media.title.english,
+      MediaUrl: media.siteUrl,
+      description: fixDisc,
+      thumbnail: media.coverImage.large,
+      avgScore: media.averageScore,
+      status: media.status,
+      episodes: media.episodes,
+      id: media.id,
+      interaction: interaction,
     });
     await interaction
       .reply({ embeds: [embed] })
