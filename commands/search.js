@@ -27,9 +27,9 @@ module.exports = {
         const media = res.Media;
         let fixDisc = striptags(media.description);
         fixDisc =
-          fixDisc.length > 300
+          fixDisc.length > 400
             ? `${fixDisc
-                .substring(0, 500)
+                .substring(0, 400)
                 .trim()
                 .replace(/(&quot\;)/g, '"')}...` //removes quotes
             : `${fixDisc}`;
@@ -47,8 +47,8 @@ module.exports = {
           id: media.id,
           interaction: interaction,
         });
-        await interaction.channel
-          .send({ embeds: [embed] })
+        await interaction
+          .reply({ embeds: [embed] })
           .then(() => console.log("sent"))
           .catch(console.error());
       })
@@ -65,8 +65,8 @@ module.exports = {
           description: `**${msg}**`,
           interaction: interaction,
         });
-        await interaction.channel
-          .send({ embeds: [myEmbed] })
+        await interaction
+          .reply({ embeds: [myEmbed] })
           .then(() => console.log("sent"))
           .catch((e) => {
             interaction.reply(`Failed \n ${e}`);
