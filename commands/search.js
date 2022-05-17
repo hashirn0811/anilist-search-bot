@@ -40,6 +40,7 @@ module.exports = {
           avgScore: media.averageScore,
           status: media.status,
           episodes: media.episodes,
+          format: media.format,
           id: media.id,
           interaction: interaction,
         });

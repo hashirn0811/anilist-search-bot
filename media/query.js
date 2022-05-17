@@ -10,6 +10,7 @@ module.exports = `query ($search: String) {
       color
       medium
     }
+    format
     status(version: 2)
     description(asHtml: true)
     averageScore
