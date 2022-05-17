@@ -17,7 +17,7 @@ const makeAnimembed = ({
   return (
     embed
       .setColor(color)
-      .setTitle(title)
+      .setTitle(`${title}`)
       .setURL(MediaUrl)
       /* .setAuthor({
       name: "Some name",
