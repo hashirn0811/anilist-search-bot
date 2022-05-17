@@ -27,8 +27,11 @@ module.exports = {
         const media = res.Media;
         let fixDisc = striptags(media.description);
         fixDisc =
-          fixDisc.length > 200
-            ? `${fixDisc.substring(0, 200).trim()}...`
+          fixDisc.length > 300
+            ? `${fixDisc
+                .substring(0, 500)
+                .trim()
+                .replace(/(&quot\;)/g, '"')}...` //removes quotes
             : `${fixDisc}`;
         let embed = "";
         embed = makeAnimembed({
@@ -51,7 +54,7 @@ module.exports = {
       })
       .catch(async (e) => {
         await interaction.channel.send(`Query failed ${e}`);
-        const resErr = e.response.errors;
+        const resErr = e.response?.errors;
         let status, msg;
         resErr.forEach((ele) => {
           status = ele.status;
