@@ -27,10 +27,10 @@ const makeAnimembed = ({
       .setDescription(description)
       .setThumbnail(thumbnail)
       .addFields(
+        { name: "Format", value: `${format}`, inline: true },
         { name: "Average Score", value: `${avgScore}`, inline: true },
         { name: "Status", value: `${status}`, inline: true },
-        { name: "Episodes", value: `${episodes}`, inline: true },
-        { name: "Format", value: `${format}`, inline: false }
+        { name: "Episodes", value: `${episodes}`, inline: true }
       )
       .setImage(`https://img.anili.st/media/${id}`)
       .setTimestamp()
