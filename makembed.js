@@ -40,4 +40,18 @@ const makeAnimembed = ({
   );
 };
 
-module.exports = { makeAnimembed };
+const makeErrEmbed = ({ statusCode, description, interaction }) => {
+  let myEmb = embed
+    .setColor(`#cc0000`)
+    .setTitle(`Error ${statusCode}`)
+    .setDescription(description)
+    .setThumbnail(`https://anilist.co/img/logo_al.png`)
+    .setTimestamp()
+    .setFooter({
+      text: `${interaction.user.tag}`,
+      iconURL: `${interaction.user.avatarURL({ format: "png", size: 32 })}`,
+    });
+  return myEmb;
+};
+
+module.exports = { makeAnimembed, makeErrEmbed };
