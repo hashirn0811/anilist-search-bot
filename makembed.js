@@ -1,7 +1,5 @@
 const { MessageEmbed } = require("discord.js");
 
-const embed = new MessageEmbed();
-
 const makeAnimembed = ({
   color,
   title,
@@ -14,6 +12,7 @@ const makeAnimembed = ({
   id,
   interaction,
 }) => {
+  const embed = new MessageEmbed();
   return (
     embed
       .setColor(color)
@@ -41,7 +40,8 @@ const makeAnimembed = ({
 };
 
 const makeErrEmbed = ({ statusCode, description, interaction }) => {
-  let myEmb = embed
+  const embed = new MessageEmbed();
+  embed
     .setColor(`#cc0000`)
     .setTitle(`Error ${statusCode}`)
     .setDescription(description)
@@ -51,7 +51,7 @@ const makeErrEmbed = ({ statusCode, description, interaction }) => {
       text: `${interaction.user.tag}`,
       iconURL: `${interaction.user.avatarURL({ format: "png", size: 32 })}`,
     });
-  return myEmb;
+  return embed;
 };
 
 module.exports = { makeAnimembed, makeErrEmbed };
