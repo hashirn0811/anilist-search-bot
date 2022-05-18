@@ -12,12 +12,14 @@ const striptags = require("striptags");
 const data = new SlashCommandBuilder()
   .setName("search")
   .setDescription("Search Query")
-  .addStringOption((opt) => opt.setName("query").setDescription("enter query"));
+  .addStringOption((opt) =>
+    opt.setName("anime").setDescription("enter anime to search")
+  );
 
 module.exports = {
   data: data,
   async execute(interaction) {
-    const query = interaction.options.getString("query") || "wrong";
+    const query = interaction.options.getString("anime") || "wrong";
     //await interaction.reply(`${query}`);
     let res = null;
     res = await requestClient
@@ -53,7 +55,7 @@ module.exports = {
           .catch(console.error());
       })
       .catch(async (e) => {
-        await interaction.channel.send(`Query failed ${e}`);
+        // await interaction.channel.send(`Query failed ${e}`);
         const resErr = e.response?.errors;
         let status, msg;
         resErr.forEach((ele) => {
