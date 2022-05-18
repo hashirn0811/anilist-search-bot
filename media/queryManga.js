@@ -1,6 +1,7 @@
 module.exports = `query ($search: String) {
     Media(search: $search, type: MANGA) {
       id
+      siteUrl
       title {
         english
         romaji
@@ -16,6 +17,5 @@ module.exports = `query ($search: String) {
         color
       }
     }
-  }
-  
+  } 
   `;
