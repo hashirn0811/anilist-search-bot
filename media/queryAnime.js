@@ -4,6 +4,7 @@ module.exports = `query ($search: String) {
     siteUrl
     title {
       english
+      romaji
     }
     episodes
     coverImage {
