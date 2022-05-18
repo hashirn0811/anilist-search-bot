@@ -1,4 +1,5 @@
 const { MessageEmbed } = require("discord.js");
+const { bold } = require("@discordjs/builders");
 
 const makeAnimembed = ({
   color,
@@ -45,8 +46,12 @@ const makeErrEmbed = ({ statusCode, description, interaction }) => {
   const embed = new MessageEmbed();
   embed
     .setColor(`#cc0000`)
-    .setTitle(`Error ${statusCode}`)
-    .setDescription(description)
+    .setTitle(`${bold(`Search Failed`)}`)
+    .setDescription(
+      `${bold("Error :")} ${bold(description)}\n ${bold("Code :")} ${bold(
+        statusCode
+      )}`
+    )
     .setThumbnail(`https://anilist.co/img/logo_al.png`)
     .setTimestamp()
     .setFooter({
