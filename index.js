@@ -43,6 +43,8 @@ for (const file of eventFiles) {
   }
 }
 
+["handler"].forEach((handler) => require(`./handlers/${handler}.js`)(client));
+
 //load commands dynamically
 /* client.on("interactionCreate", async (interaction) => {
   if (!interaction.isCommand()) return;
