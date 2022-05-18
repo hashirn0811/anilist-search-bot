@@ -2,7 +2,7 @@ const { SlashCommandBuilder } = require("@discordjs/builders");
 
 const { makeAnimembed, makeErrEmbed } = require("../makembed");
 const { request, GraphQLClient } = require("graphql-request");
-const mediaquery = require(`../media/query`);
+const mediaquery = require(`../media/queryAnime`);
 const { MessageEmbed } = require("discord.js");
 const requestClient = new GraphQLClient("https://graphql.anilist.co", {
   redirect: "follow",
@@ -38,7 +38,7 @@ module.exports = {
         let embed = "";
         embed = makeAnimembed({
           color: media.coverImage.color,
-          title: media.title.english,
+          title: media.title.english ?? media.title.romaji,
           MediaUrl: media.siteUrl,
           description: fixDisc,
           thumbnail: media.coverImage.large,
