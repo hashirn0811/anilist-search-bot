@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const discordEmbed = require(`../discordEmbed`);
+
 const { makeAnimembed, makeErrEmbed } = require("../makembed");
 const { request, GraphQLClient } = require("graphql-request");
 const mediaquery = require(`../media/query`);
