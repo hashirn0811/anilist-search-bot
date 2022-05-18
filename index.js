@@ -57,6 +57,7 @@ for (const file of eventFiles) {
 }
 /* ["handler"].forEach((handler) => require(`./handlers/${handler}.js`)(client)); */
 //eval
+//TO DO : Make it a separate file
 client.on(`messageCreate`, async (message, ...args) => {
   if (message.content.startsWith("!eval")) {
     if (!ownerId.includes(message.author.id)) return;
