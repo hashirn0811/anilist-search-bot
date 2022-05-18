@@ -24,3 +24,15 @@ rest
   .put(Routes.applicationGuildCommands(clientId, guildId), { body: commands })
   .then(() => console.log(`Commands Registered`))
   .catch(console.error);
+
+(async () => {
+  try {
+    console.log(`[API] Commands loading (\)`);
+    await rest.put(Routes.applicationGuildCommands(clientId, guildId), {
+      body: commands,
+    });
+    console.log(`[API] commands reloaded `);
+  } catch (error) {
+    console.error(error);
+  }
+})();
