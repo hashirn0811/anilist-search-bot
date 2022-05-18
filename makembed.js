@@ -96,6 +96,7 @@ const makeMangaEmbed = ({
       text: `${interaction.user.tag}`,
       iconURL: `${interaction.user.avatarURL({ format: "png", size: 32 })}`,
     });
+  return embed;
 };
 
-module.exports = { makeAnimembed, makeErrEmbed };
+module.exports = { makeAnimembed, makeErrEmbed, makeMangaEmbed };
