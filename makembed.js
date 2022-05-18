@@ -61,4 +61,41 @@ const makeErrEmbed = ({ statusCode, description, interaction }) => {
   return embed;
 };
 
+const makeMangaEmbed = ({
+  color,
+  title,
+  MediaUrl,
+  description,
+  format,
+  status,
+  chapters,
+  avgScore,
+  genres,
+  thumbnail,
+  id,
+  interaction,
+}) => {
+  const embed = new MessageEmbed();
+  embed
+    .setTitle(`${title}`)
+    .setURL(MediaUrl)
+    .setColor(color)
+    .setDescription(description)
+    .setThumbnail(thumbnail)
+    .addFields(
+      { name: "Format", value: `${format}`, inline: true },
+      { name: "Status", value: `${status}`, inline: true },
+      { name: "Chapters", value: `${chapters}`, inline: true },
+      { name: "Average Score", value: `${avgScore}%`, inline: true },
+      { name: "Genres", value: `${genres}`, inline: true }
+    )
+
+    .setImage(`https://img.anili.st/media/${id}`)
+    .setTimestamp()
+    .setFooter({
+      text: `${interaction.user.tag}`,
+      iconURL: `${interaction.user.avatarURL({ format: "png", size: 32 })}`,
+    });
+};
+
 module.exports = { makeAnimembed, makeErrEmbed };
