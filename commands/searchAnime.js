@@ -10,7 +10,7 @@ const requestClient = new GraphQLClient("https://graphql.anilist.co", {
 const striptags = require("striptags");
 
 const data = new SlashCommandBuilder()
-  .setName("search")
+  .setName("aanime")
   .setDescription("Search Query")
   .addStringOption((opt) =>
     opt.setName("anime").setDescription("enter anime to search")
