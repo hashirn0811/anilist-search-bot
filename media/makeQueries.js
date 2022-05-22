@@ -8,9 +8,16 @@ const makeRequest = async (query, variables) => {
   });
   try {
     const res = await client.request(query, { search: variables });
-    console.log(res);
+    return res;
   } catch (err) {
-    console.log(err);
+    return err;
   }
 };
-makeRequest(mediaquery, "Hgwergrgws");
+
+/* async function show() {
+  const myRes = await makeRequest(mediaquery, "Hhbtdrhbref");
+  console.log(myRes);
+}
+show();
+ */
+module.exports = { makeRequest };
