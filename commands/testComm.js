@@ -64,7 +64,7 @@ module.exports = {
         });
         await interaction.reply({ embeds: [embed] });
       } catch (error) {
-        console.error(error);
+        interaction.reply(error);
       }
     }
   },
