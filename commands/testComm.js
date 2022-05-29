@@ -29,15 +29,19 @@ module.exports = {
   async execute(interaction) {
     const type = interaction.options.getString("option") || "null";
     const query = interaction.options.getString("query") || "null";
-    console.log(`query :${query} type:${type}`);
-    let res = "";
 
+    console.log(`query :${query} type:${type}`);
     if (type === "MANGA") {
-      res = await makeRequest(mangaQuery, query);
-      //interaction.reply(`${JSON.stringify(res)}`);
+      const res = await makeRequest(mangaQuery, query);
+      console.log(res);
     } else {
       try {
-        res = await makeRequest(animeQuery, query);
+        const res = await makeRequest(animeQuery, query);
+        //console.log(res);
+        if (res.status !== 200) {
+          console.warn(`err : ${res.response.errors}`);
+          return;
+        }
         const media = res.Media;
         console.log(media);
         let fixDisc = striptags(media.description);
@@ -62,9 +66,11 @@ module.exports = {
           id: media.id,
           interaction: interaction,
         });
-        await interaction.reply({ embeds: [embed] });
-      } catch (error) {
-        interaction.reply(error);
+        await interaction
+          .reply({ embeds: [embed] })
+          .catch((err) => console.warn(err));
+      } catch (e) {
+        console.warn(e);
       }
     }
   },
