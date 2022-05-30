@@ -37,40 +37,58 @@ module.exports = {
     } else {
       try {
         const res = await makeRequest(animeQuery, query);
-        //console.log(res);
-        if (res.status !== 200) {
-          console.warn(`err : ${res.response.errors}`);
+        console.log(res.response);
+        if (res?.response?.status) {
+          console.warn(`err : ${res?.response?.errors ?? "None"}`);
+          const resErr = res?.response?.errors;
+          let status, msg;
+          resErr.forEach((ele) => {
+            status = ele.status;
+            msg = ele.message;
+          });
+          const myEmbed = makeErrEmbed({
+            statusCode: `${status}`,
+            description: `**${msg}**`,
+            interaction: interaction,
+          });
+
+          await interaction
+            .reply({ embeds: [myEmbed] })
+            .then(() => console.log(`err embed send`))
+            .catch((err) => console.warn(`err embed fail : ${err}`));
+
           return;
+        } else {
+          const media = res.Media;
+          console.log(media);
+          let fixDisc = striptags(media.description);
+          fixDisc =
+            fixDisc.length > 400
+              ? `${fixDisc
+                  .substring(0, 400)
+                  .trim()
+                  .replace(/(&quot\;)/g, '"')}...`
+              : `${fixDisc}`;
+          let embed = "";
+          embed = makeAnimembed({
+            color: media.coverImage.color,
+            title: media.title.english ?? media.title.romaji,
+            MediaUrl: media.siteUrl,
+            description: fixDisc,
+            thumbnail: media.coverImage.large,
+            avgScore: media.averageScore,
+            status: media.status,
+            episodes: media.episodes,
+            format: media.format,
+            id: media.id,
+            interaction: interaction,
+          });
+          await interaction
+            .reply({ embeds: [embed] })
+            .catch((err) => console.warn("err interaction "));
         }
-        const media = res.Media;
-        console.log(media);
-        let fixDisc = striptags(media.description);
-        fixDisc =
-          fixDisc.length > 400
-            ? `${fixDisc
-                .substring(0, 400)
-                .trim()
-                .replace(/(&quot\;)/g, '"')}...`
-            : `${fixDisc}`;
-        let embed = "";
-        embed = makeAnimembed({
-          color: media.coverImage.color,
-          title: media.title.english ?? media.title.romaji,
-          MediaUrl: media.siteUrl,
-          description: fixDisc,
-          thumbnail: media.coverImage.large,
-          avgScore: media.averageScore,
-          status: media.status,
-          episodes: media.episodes,
-          format: media.format,
-          id: media.id,
-          interaction: interaction,
-        });
-        await interaction
-          .reply({ embeds: [embed] })
-          .catch((err) => console.warn(err));
       } catch (e) {
-        console.warn(e);
+        //console.warn(e);
       }
     }
   },
