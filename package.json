@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "evelyn <84616056+RedLotus811@users.noreply.github.com>",
   "license": "ISC",
   "dependencies": {
     "@discordjs/builders": "^0.13.0",
@@ -20,5 +20,6 @@
   },
   "devDependencies": {
     "eslint": "^8.15.0"
-  }
+  },
+  "repository": "git@github.com:RedLotus811/tweek.git"
 }
