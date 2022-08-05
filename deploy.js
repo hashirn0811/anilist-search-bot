@@ -1,7 +1,7 @@
 require('dotenv').config();
-import { REST } from '@discordjs/rest';
-import { Routes } from 'discord-api-types/v9';
-import { readdirSync } from 'node:fs';
+const { REST } = require('@discordjs/rest');
+const { Routes } = require('discord-api-types/v9');
+const { readdirSync } = require('node:fs');
 
 async function deploy() {
   const commandData = [];
