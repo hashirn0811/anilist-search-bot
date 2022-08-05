@@ -1,17 +1,17 @@
 require('dotenv').config();
-const { REST } = require('@discordjs/rest');
-const { Routes } = require('discord-api-types/v9');
-const fs = require('node:fs');
+import { REST } from '@discordjs/rest';
+import { Routes } from 'discord-api-types/v9';
+import { readdirSync } from 'node:fs';
 
 async function deploy() {
   const commandData = [];
 
-  fs.readdirSync('./commands').forEach(async (category) => {
-    const commands = fs
-      .readdirSync(`./commands/${category}`)
-      .filter((cmd) => cmd.endsWith('.js'));
+  readdirSync('./commands').forEach(async (category) => {
+    const commands = readdirSync(`./commands/${category}`).filter((cmd) =>
+      cmd.endsWith('.js')
+    );
 
-    for (const command of command) {
+    for (const command of commands) {
       const Command = require(`./commands/${category}/${command}`);
       const cmd = new Command();
       const cmdData = cmd.data.toJSON();
