@@ -1,10 +1,11 @@
 {
-  "name": "anilist-search-bot",
+  "name": "tweek",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint --ext js"
   },
   "author": "evelyn <84616056+RedLotus811@users.noreply.github.com>",
   "license": "ISC",
@@ -19,7 +20,7 @@
     "turndown": "^7.1.1"
   },
   "devDependencies": {
-    "eslint": "^8.15.0"
+    "eslint": "^8.21.0"
   },
   "repository": "git@github.com:RedLotus811/tweek.git"
 }
