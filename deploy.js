@@ -12,7 +12,7 @@ async function deploy() {
     );
 
     for (const command of commands) {
-      const Command = require(`./commands/${category}/${command}`);
+      const Command = await require(`./commands/${category}/${command}`);
       const cmd = new Command();
       const cmdData = cmd.data.toJSON();
 

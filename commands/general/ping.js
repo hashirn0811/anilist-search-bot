@@ -2,7 +2,7 @@ const Command = require(`../../Structures/Command`);
 const { EmbedBuilder, SlashCommandBuilder } = require(`discord.js`);
 const { stripIndents } = require(`common-tags`);
 
-class Ping extends Command {
+module.exports = class Ping extends Command {
   constructor(client) {
     // props = {
     //   data: new SlashCommandBuilder().setName('ping').setDescription('ping'),
@@ -33,4 +33,4 @@ class Ping extends Command {
 
     return await interaction.followUp({ embeds: [embed] });
   }
-}
+};
