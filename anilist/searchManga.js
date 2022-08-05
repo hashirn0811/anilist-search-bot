@@ -1,26 +1,26 @@
 const { SlashCommandBuilder } = require(`@discordjs/builders`);
-const { request, GraphQLClient } = require("graphql-request");
+const { request, GraphQLClient } = require('graphql-request');
 const { makeMangaEmbed, makeErrEmbed } = require(`../makembed`);
-const { execute } = require("./searchAnime");
+const { execute } = require('./searchAnime');
 const mediaquery = require(`../media/queryManga`);
 const { codeBlock } = require(`@discordjs/builders`);
-const striptags = require("striptags");
+const striptags = require('striptags');
 
 const slashData = new SlashCommandBuilder()
-  .setName("manga")
-  .setDescription("Search for a manga")
+  .setName('manga')
+  .setDescription('Search for a manga')
   .addStringOption((opt) =>
-    opt.setName("query").setDescription("enter the manga to search for")
+    opt.setName('query').setDescription('enter the manga to search for')
   );
 
-const requestClient = new GraphQLClient("https://graphql.anilist.co", {
-  redirect: "follow",
+const requestClient = new GraphQLClient('https://graphql.anilist.co', {
+  redirect: 'follow',
 });
 
 module.exports = {
   data: slashData,
   async execute(interaction) {
-    const query = interaction.options.getString(`query`) || "EROORRR";
+    const query = interaction.options.getString(`query`) || 'EROORRR';
     let res = null;
     res = await requestClient
       .request(mediaquery, { search: query })
@@ -28,7 +28,7 @@ module.exports = {
         console.log(`200 OK\n${JSON.stringify(res)}`);
         const media = res.Media;
         console.log(`media obj => ${media}`);
-        let embed = "";
+        let embed = '';
         let fixDisc = striptags(media.description);
         fixDisc =
           fixDisc.length > 400
@@ -74,7 +74,7 @@ module.exports = {
         });
         await interaction
           .reply({ embeds: [myEmbed] })
-          .then(() => console.log("sent"))
+          .then(() => console.log('sent'))
           .catch((e) => {
             interaction.reply(`Failed \n ${e}`);
           });
