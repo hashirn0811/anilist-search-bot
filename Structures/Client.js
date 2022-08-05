@@ -1,28 +1,40 @@
-const { Client, Collection, Intents } = require(`discord.js`);
-const CommandHandler = require(`../Structures/Command`);
-const EventHandler = require(`../Structures/Event`);
-const Util = require(`../Structures/Util`);
+const {
+  Client,
+  Collection,
+  GatewayIntentBits,
+  Partials,
+} = require(`discord.js`);
+const CommandHandler = require(`../handlers/Command`);
+const EventHandler = require(`../handlers/Event`);
+const Util = require('./Util');
+require('dotenv').config();
 
 class Tweek extends Client {
   constructor(props) {
     if (!props) props = {};
-    props.partials = ['MESSAGE', 'CHANNEL', 'REACTION'];
+    props.partials = [
+      Partials.GuildMember,
+      Partials.Message,
+      Partials.Channel,
+      Partials.User,
+    ];
     props.intents = [
-      Intents.FLAGS.GUILDS,
-      Intents.FLAGS.GUILD_MESSAGES,
-      Intents.FLAGS.GUILD_MEMBERS,
-      Intents.FLAGS.GUILD_INVITES,
-      Intents.FLAGS.GUILD_BANS,
-      Intents.FLAGS.GUILD_INVITES,
-      Intents.FLAGS.GUILD_EMOJIS_AND_STICKERS,
-      Intents.FLAGS.GUILD_VOICE_STATES,
+      GatewayIntentBits.Guilds,
+      GatewayIntentBits.GuildMembers,
+      GatewayIntentBits.GuildMessages,
+      GatewayIntentBits.GuildPresences,
+      GatewayIntentBits.GuildBans,
+      GatewayIntentBits.GuildEmojisAndStickers,
+      GatewayIntentBits.GuildIntegrations,
     ];
 
     super(props);
-    this.config = require(`dotenv`).config();
+    this.config = require(`../config`);
     this.token = process.env.TOKEN;
     this.dbID = process.env.DB;
     this.commands = new Collection();
+    this.events = new Collection();
+    this.util = new Util(this);
 
     new EventHandler(this).load('../events/');
     new CommandHandler(this).load('../commands/');
