@@ -13,7 +13,7 @@ module.exports = class InteractionCreate extends Event{
 
     if (interaction.type === InteractionType.ApplicationCommand) {
       const command = client.commands.get(interaction.commandName);
-      console.log(command);
+      //console.log(command);
       if (interaction.user.bot) return;
       if (!interaction.inGuild() && interaction.type === InteractionType.ApplicationCommand) return interaction.reply({ content: 'You must be in a server to use commands.' });
 
