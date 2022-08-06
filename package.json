@@ -6,6 +6,8 @@
   "scripts": {
     "start": "node index",
     "lint": "eslint --ext .js,.ts . ./ --fix",
+    "lint:fix": "eslint --fix --ext .js",
+    
     "deploy":"node deploy"
   },
   "author": "evelyn <84616056+RedLotus811@users.noreply.github.com>",
