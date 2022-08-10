@@ -19,7 +19,7 @@ module.exports = class Ping extends Command {
     
     const embed = new EmbedBuilder()
       .setAuthor({name:`${client.user.username}'s ping`,
-        iconURL:client.user.displayAvatarURL({size:2048})})
+        iconURL:client.user.displayAvatarURL()})
       .setColor('Blue')
       .setDescription(stripIndents`
       **Roundtrip:** ${Math.round(Date.now() - now)} ms
