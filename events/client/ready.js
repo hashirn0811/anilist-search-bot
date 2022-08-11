@@ -9,7 +9,7 @@ module.exports = class ReadyEvent extends Event {
   }
   async run(client) {
     console.log(
-      `Logged in as ${client.user.username} with ${client.users.cache.size} users and ${client.guilds.cache.size} guilds`
+      `Logged in as ${client.user.username} in ${client.guilds.cache.size} guild(s) serving ${client.users.cache.size} users.`
     );
   }
 };
