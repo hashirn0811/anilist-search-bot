@@ -13,10 +13,12 @@ name: "CodeQL"
 
 on:
   push:
-    branches: [ "refactor-branch", main ]
+    branches:
+    - '*'
   pull_request:
     # The branches below must be a subset of the branches above
-    branches: [ "refactor-branch" ]
+    branches:
+    - '*'
   schedule:
     - cron: '44 20 * * 6'
 
