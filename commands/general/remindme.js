@@ -1,8 +1,8 @@
 const Command = require(`../../Structures/Command`);
-const {EmbedBuilder,SlashCommandBuilder} = require(`discord.js`);
+const { SlashCommandBuilder } = require(`discord.js`);
 const ms = require('ms');
 const Reminder = require(`../../Structures/models/Reminder`) ;
-
+const { makeEmbed,error_embed } = require(`../../helpers/embeds`) ;
 module.exports = class Remindme extends Command{
   constructor(client){
     super(client,{
@@ -35,13 +35,14 @@ module.exports = class Remindme extends Command{
     const userId = interaction.user.id;
     const channelId = interaction.channelId;
     const timeMs = ms(duration);
-    const errEmbed = new EmbedBuilder()
-      .setAuthor({name:interaction.user.username,
-        iconURL: interaction.user.displayAvatarURL()}
-      )
-      .setDescription(`Invalid Duration`)
-      .setColor('Red');
-    if(!timeMs) return await interaction.followUp({embeds:[errEmbed]});
+    const errEmbed = error_embed({
+      client,
+      description: 'Invalid Duration',
+    });
+    
+    if(!timeMs) return await interaction.followUp({embeds:[errEmbed]})
+      .then(()=> new Promise(resolve => setTimeout(resolve,30000)))
+      .then(async()=>await interaction.deleteReply());
     console.log({
       guildId,
       userId,
@@ -50,23 +51,24 @@ module.exports = class Remindme extends Command{
       dueDate:timeMs
     });
     try {
-      const reminder = await Reminder.create({
+      await Reminder.create({
         guild:guildId,
         userId,
         channelId,
         content,
         dueDate:timeMs
       });
-      const successEmbed = new EmbedBuilder()
-        .setAuthor({name:interaction.user.username,
-          iconURL: interaction.user.displayAvatarURL()}
-        )
-        .setDescription(`I'll remind you about this <t:${timeMs}:R>}`)
-        .setColor('Blurple')
-        .addFields([
+      const successEmbed = makeEmbed({
+        author: {
+          name:interaction.user.username,
+          iconURL: interaction.user.displayAvatarURL()
+        },
+        description: `I will remind you about ${content} in <t:${timeMs}:R>`,
+        fields:[
           {name:'id',value:'id',inline:false},
           {name:'Content',value:content,inline:false}
-        ]);
+        ]
+      });
       await interaction.followUp({embeds:[successEmbed]}); 
     }catch (error) {
       console.error(`Error saving to DB : ${error.message}`);

@@ -1,6 +1,7 @@
 const Command = require('../../Structures/Command');
-const { EmbedBuilder, SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder } = require('discord.js');
 const { stripIndents } = require('common-tags');
+const { makeEmbed } = require(`../../helpers/embeds`) ;
 
 module.exports = class Ping extends Command {
   constructor(client) {
@@ -16,16 +17,15 @@ module.exports = class Ping extends Command {
   async run(client,interaction){
     const now = Date.now();
     await interaction.deferReply() ;
-    
-    const embed = new EmbedBuilder()
-      .setAuthor({name:`${client.user.username}'s ping`,
-        iconURL:client.user.displayAvatarURL()})
-      .setColor('Blue')
-      .setDescription(stripIndents`
-      **Roundtrip:** ${Math.round(Date.now() - now)} ms
-      **API:** ${Math.round(client.ws.ping)} ms
-      `);
 
+    const embed = makeEmbed({
+      client,
+      title:`${client.user.username}'s ping`,
+      description: stripIndents`
+       **Roundtrip:** ${Math.round(Date.now() - now)} ms
+       **API:** ${Math.round(client.ws.ping)} ms
+       `
+    });
     return await interaction.followUp({embeds: [embed]});
   }
 };
