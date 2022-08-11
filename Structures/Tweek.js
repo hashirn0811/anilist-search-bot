@@ -61,22 +61,20 @@ class Tweek extends Client {
     return this.commands.get(cmd);
   }
   async sendMessage(target,content,User = false){
+    if(content instanceof Object && !content.content){
+      content = {embeds: [content]};
+    }
     try {
       if(User){
         const user = await this.util.fetchUser(target);
         const DMchannel = await user.createDM() ;
-        return await DMchannel.send({content}) ;
-      }else{
-        const targetChannel = await this.util.fetchChannel(target);
-        //const targetChannel = await super.channels.fetch(target);
-        return await targetChannel.send({content});
-        //return await targetChannel.send({content});
-        
-      }  
+        return await DMchannel.send(content) ;
+      }
+      const targetChannel = await this.util.fetchChannel(target);
+      return await targetChannel.send(content);
     } catch (e) {
       console.error(`Error Sending Message: ${e.message}`);
     }
-
   }
 }
 module.exports.Tweek = Tweek;
