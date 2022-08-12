@@ -51,21 +51,22 @@ module.exports = class Remindme extends Command{
       dueDate:timeMs
     });
     try {
-      await Reminder.create({
+      const reminder = await Reminder.create({
         guild:guildId,
         userId,
         channelId,
         content,
         dueDate:timeMs
       });
+      const {id = 'err'} = reminder ;
       const successEmbed = makeEmbed({
         author: {
           name:interaction.user.username,
           iconURL: interaction.user.displayAvatarURL()
         },
-        description: `I will remind you about ${content} in <t:${timeMs}:R>`,
+        description: `I will remind you about **${content}** in <t:${timeMs / 1000}:R>`,
         fields:[
-          {name:'id',value:'id',inline:false},
+          {name:'id',value:id,inline:false},
           {name:'Content',value:content,inline:false}
         ]
       });

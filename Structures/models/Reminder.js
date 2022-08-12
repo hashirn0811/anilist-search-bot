@@ -17,6 +17,11 @@ const reminderSchema = new mongoose.Schema({
     type:Number,
     default: ()=> Date.now()
   },
+  id:{
+    type:String,
+    //improve this as the probability of collision is not null :P
+    default: ()=> String(Math.floor(Math.random() * Date.now())).substring(1,5)
+  },
   content: {
     type:String,
     required:true
