@@ -1,6 +1,6 @@
 const Command = require(`../../Structures/Command`);
 const { SlashCommandBuilder } = require(`discord.js`);
-const ms = require('ms');
+const { parseTime } = require(`../../helpers/parse`);
 const Reminder = require(`../../Structures/models/Reminder`) ;
 const { makeEmbed,error_embed } = require(`../../helpers/embeds`) ;
 module.exports = class Remindme extends Command{
@@ -34,39 +34,43 @@ module.exports = class Remindme extends Command{
     const guildId = interaction.guildId;
     const userId = interaction.user.id;
     const channelId = interaction.channelId;
-    const timeMs = ms(duration);
+    const dueDate = parseTime(duration);
+
     const errEmbed = error_embed({
       client,
       description: 'Invalid Duration',
     });
-    
-    if(!timeMs) return await interaction.followUp({embeds:[errEmbed]})
+    if(typeof dueDate !== 'number') return await interaction.followUp({embeds:[errEmbed]})
       .then(()=> new Promise(resolve => setTimeout(resolve,30000)))
       .then(async()=>await interaction.deleteReply());
+
     console.log({
       guildId,
       userId,
       channelId,
       content,
-      dueDate:timeMs
+      dueDate
     });
+
     try {
       const reminder = await Reminder.create({
         guild:guildId,
         userId,
         channelId,
         content,
-        dueDate:timeMs
+        dueDate
       });
       const {id = 'err'} = reminder ;
+      const stamp = Math.floor(dueDate / 1000);
       const successEmbed = makeEmbed({
+        title: 'Reminder Added',
         author: {
           name:interaction.user.username,
           iconURL: interaction.user.displayAvatarURL()
         },
-        description: `I will remind you about **${content}** in <t:${timeMs / 1000}:R>`,
+        description: `I will remind you about **${content}** in <t:${stamp}:R>`,
         fields:[
-          {name:'id',value:id,inline:false},
+          {name:'Id',value:id,inline:false},
           {name:'Content',value:content,inline:false}
         ]
       });
