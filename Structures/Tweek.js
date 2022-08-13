@@ -9,6 +9,7 @@ const EventHandler = require('../handlers/Event');
 const mongoose = require(`mongoose`) ;
 const Util = require('./Util');
 const Reminder = require(`./models/Reminder`);
+const { reminderEmbed } = require(`../helpers/embeds`);
 require('dotenv').config();
 
 class Tweek extends Client {
@@ -84,17 +85,22 @@ class Tweek extends Client {
   }
   async sendReminder(reminder){
     // eslint-disable-next-line no-unused-vars
-    const {content = 'Error',dueDate = '',userId = '',guild='',channelId='',id=''} = reminder;
+    const {content = 'Error',dueDate = '',userId = '',createdAt = '',channelId='',id=''} = reminder;
+    const embed = reminderEmbed({content,createdAt});
+    const reminderMessage = {
+      content: `<@${userId}>`,
+      embeds: [embed]
+    };
     try {
       if(channelId){
         console.log(`ChannelId: ${channelId}, content: ${content}`);
-        const sent =  await this.sendMessage(channelId,content);
+        const sent =  await this.sendMessage(channelId,reminderMessage);
         if(sent) console.log(`Reminder sent to channel`);
-        return;
+        return true;
       }
-      const sent =  await this.sendMessage(userId,content,true);
+      const sent =  await this.sendMessage(userId,reminderMessage,true);
       if(sent) console.log(`Reminder sent to dm`);
-      return;
+      return true;
     } catch (e) {
       console.log(`Error : ${e.message}`);
       return false;
