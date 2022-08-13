@@ -34,7 +34,7 @@ module.exports = class Reminder {
   }
   async fetchOneById(id){
     try {
-      const reminder = await this.collection.find({id});
+      const reminder = await this.collection.findOne({id});
       return reminder;
     } catch (e) {
       console.error(`Error fetching reminder : ${e.message}`);
@@ -53,6 +53,7 @@ module.exports = class Reminder {
   async getExpired(){
     try {
       const expired = await this.collection.find({dueDate:{$lt:Date.now()}});
+      if(!expired.length) return false;
       return expired;
     } catch (e) {
       console.error(`Error fetching expired : ${e.message}`);
