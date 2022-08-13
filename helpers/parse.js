@@ -21,10 +21,13 @@ function parseTime(timeInput){
   const matches = timeInput.match(regEx); //[ '1 S', '1', 'S', index: 0, input: '1 S', groups: undefined ] | null
   if(matches){
     const relTime = Number(matches[1]) * timeMS[matches[2]] ;
-    return {
+    const obj = {
       relative:relTime,
       absolute: relTime + Date.now()
     };
+    // eslint-disable-next-line no-unused-vars
+    const {relative = 'INVALID' , absolute = 'INVALID'} = obj;
+    return absolute;
   }
 
   const possible = Object.keys(replaceWith);

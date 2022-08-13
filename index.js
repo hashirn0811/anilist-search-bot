@@ -1,5 +1,4 @@
 const { Tweek } = require('./Structures/Tweek');
-
 const client = new Tweek();
 
 (async()=>{
