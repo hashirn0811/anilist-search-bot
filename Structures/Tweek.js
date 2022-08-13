@@ -83,6 +83,7 @@ class Tweek extends Client {
     }
   }
   async sendReminder(reminder){
+    // eslint-disable-next-line no-unused-vars
     const {content = 'Error',dueDate = '',userId = '',guild='',channelId='',id=''} = reminder;
     try {
       if(channelId){
