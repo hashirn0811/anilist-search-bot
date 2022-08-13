@@ -7,7 +7,8 @@
     "start": "node index",
     "lint": "eslint --ext .js,.ts . ./ --fix",
     "lint:all": "eslint .",
-    "deploy": "node deploy"
+    "deploy": "node deploy",
+    "debug:play":"node play"
   },
   "author": "evelyn <84616056+RedLotus811@users.noreply.github.com>",
   "license": "ISC",
