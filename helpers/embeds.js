@@ -14,6 +14,7 @@ function makeEmbed(
     fields=[],
     footer = {},
     color=null,
+    timestamp
   }={}){
   const embed = new EmbedBuilder()
     .setColor('Blurple')
@@ -29,7 +30,8 @@ function makeEmbed(
   if(image_url) embed.setImage(image_url);
   if(fields.length !== 0) embed.setFields(fields);
   if(!isEmpty(footer)) embed.setFooter(footer);
-  
+  if(timestamp) embed.setTimestamp(timestamp);
+
   return embed;
 }
 
@@ -50,7 +52,19 @@ function error_embed({
   );
 }
 
-async function error_message({
+function reminderEmbed({
+  content,
+  createdAt
+} = {}){
+  return makeEmbed({
+    title:`Here's your reminder`,
+    description:content,
+    footer: {text:'Reminder was made at ',},
+    timestamp: createdAt
+  });
+}
+
+async function errorMessage({
   channel,
   description = 'An unknown error occured',
 }= {}){
@@ -63,4 +77,4 @@ async function error_message({
   }),10000);
   
 }
-module.exports = {makeEmbed,error_embed,error_message};
+module.exports = {makeEmbed,error_embed,errorMessage , reminderEmbed};
