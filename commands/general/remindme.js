@@ -1,7 +1,6 @@
 const Command = require(`../../Structures/Command`);
 const { SlashCommandBuilder } = require(`discord.js`);
 const { parseTime } = require(`../../helpers/parse`);
-//const Reminder = require(`../../Structures/models/Reminder`) ;
 const Reminder = require('../../Structures/Reminder');
 const { makeEmbed,error_embed } = require(`../../helpers/embeds`) ;
 module.exports = class Remindme extends Command{
@@ -65,14 +64,14 @@ module.exports = class Remindme extends Command{
       const {id = 'err'} = reminder ;
       const stamp = Math.floor(dueDate / 1000);
       const successEmbed = makeEmbed({
-        title: 'Reminder Added',
+        title: 'Reminder Set',
         author: {
           name:interaction.user.username,
           iconURL: interaction.user.displayAvatarURL()
         },
-        description: `I will remind you about **${content}** in <t:${stamp}:R>`,
+        description: `I will remind you about this <t:${stamp}:R>.`,
         fields:[
-          {name:'Id',value:id,inline:false},
+          {name:'ID',value:id,inline:false},
           {name:'Content',value:content,inline:false}
         ]
       });
