@@ -1,7 +1,8 @@
 const Command = require(`../../Structures/Command`);
 const { SlashCommandBuilder } = require(`discord.js`);
 const { parseTime } = require(`../../helpers/parse`);
-const Reminder = require(`../../Structures/models/Reminder`) ;
+//const Reminder = require(`../../Structures/models/Reminder`) ;
+const Reminder = require('../../Structures/Reminder');
 const { makeEmbed,error_embed } = require(`../../helpers/embeds`) ;
 module.exports = class Remindme extends Command{
   constructor(client){
@@ -35,7 +36,7 @@ module.exports = class Remindme extends Command{
     const userId = interaction.user.id;
     const channelId = interaction.channelId;
     const dueDate = parseTime(duration);
-
+    const Rem = new Reminder();
     const errEmbed = error_embed({
       client,
       description: 'Invalid Duration',
@@ -48,12 +49,13 @@ module.exports = class Remindme extends Command{
       guildId,
       userId,
       channelId,
+      //id: ,
       content,
       dueDate
     });
 
     try {
-      const reminder = await Reminder.create({
+      const reminder = await Rem.addReminder({
         guild:guildId,
         userId,
         channelId,

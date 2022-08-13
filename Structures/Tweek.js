@@ -8,6 +8,7 @@ const CommandHandler = require('../handlers/Command');
 const EventHandler = require('../handlers/Event');
 const mongoose = require(`mongoose`) ;
 const Util = require('./Util');
+const Reminder = require(`./models/Reminder`);
 require('dotenv').config();
 
 class Tweek extends Client {
@@ -37,7 +38,7 @@ class Tweek extends Client {
     this.commands = new Collection();
     this.events = new Collection();
     this.util = new Util(this);
-
+    this.reminderCollection = Reminder;
     new EventHandler(this).load('../events/');
     new CommandHandler(this).load('../commands/');
     
@@ -67,13 +68,35 @@ class Tweek extends Client {
     try {
       if(User){
         const user = await this.util.fetchUser(target);
-        const DMchannel = await user.createDM() ;
+        if(!user) return console.log(`Error fetching user`);
+        const DMchannel = await user.createDM().catch(e=> console.error(e.message)) ;
+        console.log(`Dm channel`,DMchannel);
         return await DMchannel.send(content) ;
       }
       const targetChannel = await this.util.fetchChannel(target);
+      //if(!targetChannel) return console.log(`Error fetching Channel`);
+      console.log(`Channel to send:`,targetChannel.id);
       return await targetChannel.send(content);
     } catch (e) {
       console.error(`Error Sending Message: ${e.message}`);
+      return false;
+    }
+  }
+  async sendReminder(reminder){
+    const {content = 'Error',dueDate = '',userId = '',guild='',channelId='',id=''} = reminder;
+    try {
+      if(channelId){
+        console.log(`ChannelId: ${channelId}, content: ${content}`);
+        const sent =  await this.sendMessage(channelId,content);
+        if(sent) console.log(`Reminder sent to channel`);
+        return;
+      }
+      const sent =  await this.sendMessage(userId,content,true);
+      if(sent) console.log(`Reminder sent to dm`);
+      return;
+    } catch (e) {
+      console.log(`Error : ${e.message}`);
+      return false;
     }
   }
 }

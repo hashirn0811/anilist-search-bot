@@ -3,7 +3,7 @@ module.exports = class Util {
     this.client = client;
   }
   async fetchChannel(channelID) {
-    return await this.client.channels.fetch(channelID).catch(() => false);
+    return await this.client.channels.fetch(channelID).catch(() =>false);
   }
   async fetchUser(id){
     return await this.client.users.fetch(id).catch(()=>false);
