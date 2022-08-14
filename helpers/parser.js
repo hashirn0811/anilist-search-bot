@@ -53,16 +53,16 @@ function parseTime(timeInput){
   if(absolute < now){
     const setForPast = check(input,parsedTime);
     if(!setForPast) return absolute;  
-    console.log(`final return `, setForPast);
+    //console.log(`final return `, setForPast);
     return setForPast;
   }
   return absolute;
 }
-//Improve this even more ? | think of a better way
+//Improve this even more ? || think of a better way to do the whole thing..
 function check(input,parsed){
   arr.push(input);
   if(parsed[`absolute`] > now) return false;
-  if(near < now){ // any > undefined -> false
+  if(res[0] < now){ // any > undefined -> false
     const futured = parseTime(`${arr[0]} ${year + 1}`);
     return futured; 
   }
@@ -72,11 +72,11 @@ function check(input,parsed){
 }
 module.exports = { parseTime };
 
-function testParser(str){
+/* function testParser(str){
   const parsed = parseTime(str);
   if(typeof parsed === 'number'){
     const d = new Date(parsed);
     return console.log(`Parsed : ${parsed} , Date : ${d},type: ${typeof parsed} , now: ${now}`);
   }
 }
-testParser('19 aug 2029');
+testParser('37 aug'); */

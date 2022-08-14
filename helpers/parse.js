@@ -60,5 +60,5 @@ function parseTime(timeInput){
   }
   console.log('Failed',typeof parsed);
 }
-testParser('jan 1'); */
+testParser('aug 19'); */
 module.exports = { parseTime };
