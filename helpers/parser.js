@@ -16,6 +16,8 @@ const replaceWith = {
   'next':'one'
 };
 const arr = [];
+const res = [];
+let near = 0;
 const now = Date.now();
 const year = new Date().getFullYear();
 
@@ -48,12 +50,28 @@ function parseTime(timeInput){
   if(mode === 'error' || Number(timeInput)) return 'INVALID' ;
   if(mode === 'relative' && relative < 0) return 'INVALID FORMAT';
 
-  const setForPast = check(input,parsedTime);
-  if(!setForPast) return absolute;  
-  console.log(`final return `, setForPast);
-  return setForPast;
-
+  if(absolute < now){
+    const setForPast = check(input,parsedTime);
+    if(!setForPast) return absolute;  
+    console.log(`final return `, setForPast);
+    return setForPast;
+  }
+  return absolute;
 }
+//Improve this even more ? | think of a better way
+function check(input,parsed){
+  arr.push(input);
+  if(parsed[`absolute`] > now) return false;
+  if(near < now){ // any > undefined -> false
+    const futured = parseTime(`${arr[0]} ${year + 1}`);
+    return futured; 
+  }
+  res.push(near);
+  near = parseTime(`${arr[0]} ${year}`); 
+  if(near > now) return near;
+}
+module.exports = { parseTime };
+
 function testParser(str){
   const parsed = parseTime(str);
   if(typeof parsed === 'number'){
@@ -61,17 +79,4 @@ function testParser(str){
     return console.log(`Parsed : ${parsed} , Date : ${d},type: ${typeof parsed} , now: ${now}`);
   }
 }
-
-testParser('aug 17');
-
-
-function check(input,parsed){
-  arr.push(input);
-  if(parsed[`absolute`] > now) return false;
-  //TODO : Come up with a guard clause or something to prevent unnecessary calls
-  const near = parseTime(`${input} ${year}`); 
-  if(near > now) return near;
-  const futured = parseTime(`${arr[0]} ${year + 1}`);
-  return futured; 
-}
-module.exports = { parseTime };
+testParser('19 aug 2029');
