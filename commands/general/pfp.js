@@ -1,6 +1,6 @@
 const Command = require(`../../Structures/Command`) ;
-const { EmbedBuilder,SlashCommandBuilder } = require(`discord.js`) ;
-
+const { SlashCommandBuilder } = require(`discord.js`) ;
+const { makeEmbed } = require(`../../helpers/embeds`) ;
 module.exports = class PFP extends Command{
   constructor(client){
     super(client,{
@@ -19,18 +19,14 @@ module.exports = class PFP extends Command{
     });
   }
   async run(client,interaction){
+    await interaction.deferReply();
     const user = await interaction.options.getUser('user');
-    console.log(user);
     const avatarURl = user.displayAvatarURL({extension:'png',dynamic:true,size:2048});
-
-    const embed = new EmbedBuilder()
-      .setTitle(`**${user.username}'s Avatar**`)
-      .setColor('Blue')
-      .setImage(avatarURl)
-      .setDescription(
-        `Links : • [x2048](${avatarURl}) `
-      );
-
-    return await interaction.reply({embeds: [embed]});
+    const embed = makeEmbed({
+      author: {name:`${user.tag}`,iconURL:`${user.displayAvatarURL()}`},
+      image_url: avatarURl,
+      fields: [{name:'Links',value:`• [x2048](${avatarURl}) `,inline:true}]
+    });
+    return await interaction.followUp({embeds: [embed]});
   }
 };

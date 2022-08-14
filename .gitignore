@@ -2,3 +2,5 @@
 node_modules
 config.js
 play.js
+p.js
+.vscode
