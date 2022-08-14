@@ -1,5 +1,6 @@
 .env
 node_modules
-.eslintrc.json
-fetch.js
-discordEmbed.js
+config.js
+play.js
+p.js
+.vscode
