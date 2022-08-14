@@ -1,6 +1,6 @@
 const Command = require(`../../Structures/Command`);
 const { SlashCommandBuilder } = require(`discord.js`);
-const { parseTime } = require(`../../helpers/parse`);
+const { parseTime } = require(`../../helpers/parser`);
 const Reminder = require('../../Structures/Reminder');
 const { makeEmbed,error_embed } = require(`../../helpers/embeds`) ;
 module.exports = class Remindme extends Command{
