@@ -39,10 +39,10 @@ function parseTime(timeInput){
   
   const parsedTime = timeParser(timeInput.trim());
   const { relative,mode ,absolute} = parsedTime ;
+  const year = new Date().getFullYear();
 
   if(mode === 'error' || Number(timeInput)) return 'INVALID' ;
   if(relative < 0){
-    const year = new Date.getFullYear();
     if(mode === 'relative'){
       return 'Invalid Format' ;
     }else{
@@ -60,5 +60,5 @@ function parseTime(timeInput){
   }
   console.log('Failed',typeof parsed);
 }
-testParser('1 dad'); */
+testParser('jan 1'); */
 module.exports = { parseTime };
